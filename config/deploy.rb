@@ -1,4 +1,4 @@
-set :author, "ontoportal-lirmm"
+set :author, "lovportal"
 set :application, "ontologies_api"
 set :repo_url, "https://github.com/#{fetch(:author)}/#{fetch(:application)}.git"
 
@@ -38,17 +38,12 @@ set :config_folder_path, "#{fetch(:application)}/#{fetch(:stage)}"
 
 # If you want to restart using `touch tmp/restart.txt`, add this to your config/deploy.rb:
 
-SSH_JUMPHOST = ENV.include?('SSH_JUMPHOST') ? ENV['SSH_JUMPHOST'] : 'jumpbox.hostname.com'
-SSH_JUMPHOST_USER = ENV.include?('SSH_JUMPHOST_USER') ? ENV['SSH_JUMPHOST_USER'] : 'username'
 
-JUMPBOX_PROXY = "#{SSH_JUMPHOST_USER}@#{SSH_JUMPHOST}"
 set :ssh_options, {
   user: 'ontoportal',
   forward_agent: 'true',
   keys: %w(config/deploy_id_rsa),
   auth_methods: %w(publickey),
-  # use ssh proxy if API servers are on a private network
-  proxy: Net::SSH::Proxy::Command.new("ssh #{JUMPBOX_PROXY} -W %h:%p")
 }
 
 # private git repo for configuraiton
