@@ -1,4 +1,4 @@
-set :author, "ontoportal-lirmm"
+set :author, "lovportal"
 set :application, "ontologies_api"
 set :repo_url, "https://github.com/#{fetch(:author)}/#{fetch(:application)}.git"
 
@@ -36,23 +36,16 @@ set :linked_dirs, %w{log vendor/bundle tmp/pids tmp/sockets public/system}
 set :keep_releases, 5
 set :config_folder_path, "#{fetch(:application)}/#{fetch(:stage)}"
 
-# If you want to restart using `touch tmp/restart.txt`, add this to your config/deploy.rb:
 
-SSH_JUMPHOST = ENV.include?('SSH_JUMPHOST') ? ENV['SSH_JUMPHOST'] : 'jumpbox.hostname.com'
-SSH_JUMPHOST_USER = ENV.include?('SSH_JUMPHOST_USER') ? ENV['SSH_JUMPHOST_USER'] : 'username'
-
-JUMPBOX_PROXY = "#{SSH_JUMPHOST_USER}@#{SSH_JUMPHOST}"
 set :ssh_options, {
   user: 'ontoportal',
   forward_agent: 'true',
   keys: %w(config/deploy_id_rsa),
   auth_methods: %w(publickey),
-  # use ssh proxy if API servers are on a private network
-  proxy: Net::SSH::Proxy::Command.new("ssh #{JUMPBOX_PROXY} -W %h:%p")
 }
 
 # private git repo for configuraiton
-PRIVATE_CONFIG_REPO = ENV.include?('PRIVATE_CONFIG_REPO') ? ENV['PRIVATE_CONFIG_REPO'] : 'https://your_github_pat_token@github.com/your_organization/ontoportal-configs.git'
+PRIVATE_CONFIG_REPO = ENV.include?('PRIVATE_CONFIG_REPO') ? ENV['PRIVATE_CONFIG_REPO'] : 'https://token@github.com/lovportal/ontoportal-configs.git'
 desc "Check if agent forwarding is working"
 task :forwarding do
   on roles(:all) do |h|
